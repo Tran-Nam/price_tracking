@@ -1,12 +1,15 @@
-import asyncio
-from playwright.async_api import async_playwright
+import requests 
+from pprint import pprint
 
-async def main():
-    async with async_playwright() as p:
-        browser = await p.chromium.launch()
-        page = await browser.new_page()
-        await page.goto("https://winmart.vn/")
-        print(await page.title())
-        await browser.close()
 
-asyncio.run(main())
+url = 'https://api-crownx.winmart.vn/it/api/web/v3/item/category'
+params = {'orderByDesc': True, 
+        'pageNumber': 5, 
+        'pageSize': 8, 
+        'slug': 'rau-cu-trai-cay--c02', 
+        'storeCode': 1535, 
+        'storeGroupCode': 1998}
+
+resp = requests.get(url, params=params)
+if resp.status_code == 200:
+    pprint(resp.json())
